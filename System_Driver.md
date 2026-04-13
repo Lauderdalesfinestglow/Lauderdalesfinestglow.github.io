@@ -36,11 +36,11 @@ Following is a sample for `[Defines]` section of one PEIM:
 ```ini
 [Defines]
   INF_VERSION    = 0x00010005
-  BASE_NAME      = SamplePei
-  FILE_GUID      = XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+  BASE_NAME      = Display_Volume
+  FILE_GUID      = de55eeac-0000-0000-0000-100000000000
   MODULE_TYPE    = PEIM
   VERSION_STRING = 1.0
-  ENTRY_POINT    = PeimSampleInitialize
+  ENTRY_POINT    = 10910c20-0c64-4172-9409-add3064c0cad
 ```
 
 The `MODULE_TYPE` must be set to `PEIM` for all PEIMs.
