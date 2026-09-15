@@ -1,0 +1,61 @@
+[Info] Opening project file
+[Info] Running compilation ...
+
+===================================== Compiler Message Begins =====================================
+cuplx
+time: 0 secs
+cupla
+[0015ca] out of memory:  
+time: 0 secs
+Total time: 0 secs
+Fatal CUPL errors encountered ... program aborted!
+Normal exit
+Error Code = 1
+
+====================================== Compiler Message Ends ======================================
+[Error #1066] Compilation failed
+[Info] Running compilation ...
+
+===================================== Compiler Message Begins =====================================
+cuplx
+time: 0 secs
+cupla
+[0015ca] out of memory:  
+time: 0 secs
+Total time: 0 secs
+Fatal CUPL errors encountered ... program aborted!
+Normal exit
+Error Code = 1
+
+====================================== Compiler Message Ends ======================================
+[Error #1066] Compilation failed
+[Info] Running compilation ...
+
+===================================== Compiler Message Begins =====================================
+cuplx
+time: 0 secs
+cupla
+[0015ca] out of memory:  
+time: 0 secs
+Total time: 0 secs
+Fatal CUPL errors encountered ... program aborted!
+Normal exit
+Error Code = 1
+
+====================================== Compiler Message Ends ======================================
+[Error #1066] Compilation failed
+[Info] Running compilation and simulation ...
+
+================================ Compiler/Simulator Message Begins ================================
+cuplx
+time: 0 secs
+cupla
+[0015ca] out of memory:  
+time: 0 secs
+Total time: 0 secs
+Fatal CUPL errors encountered ... program aborted!
+Normal exit
+Error Code = 1
+
+================================= Compiler/Simulator Message Ends =================================
+[Error #1086] Compilation or simulation failed
