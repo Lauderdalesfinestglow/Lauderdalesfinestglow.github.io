@@ -1,0 +1,222 @@
+<html>
+<head>
+<title>Software/Services</title>
+<script>
+
+var inventory = JSON.parse($getData("software.json"));
+//["OPERATING SYSTEM", "WIRELESS_BILLING", "MEDICAL", "BUSINESS", "MANAGEMENT", "GAME", "EDUCATIONAL", "NETWORK", "SYSTEM", "CHAT", "PC_MAINTENANCE_CONTRACT"];
+
+function inventoryHas(model)
+{
+return true;
+//	for (var j=0; j<inventory.getAccessoriesCount(); j++)
+//		if (inventory.getAccessoryObjAt(j).getModel() == model)
+//			return true;
+//	return false;
+}
+
+function install(form)
+{
+	var installed = 0;
+	for (var i=1; i<form.installSw.length; i++)
+	{
+		if (form.installSw[i].checked)
+		{
+			var model = form.installSw[i].value;
+
+			if (inventoryHas(model))
+				device.addCustomVar(model, "software installed");
+			else
+				alert(model + " is no longer available.");
+			installed = installed + 1;
+		}
+	}
+	if(installed == 0)
+	{
+		alert("No software selected to install");
+	}
+
+	location.reload();
+}
+
+function uninstall(form)
+{
+	var uninstalled = 0;
+	for (var i=1; i<form.uninstallSw.length; i++)
+	{
+		if (form.uninstallSw[i].checked)
+		{
+			device.removeCustomVar(form.uninstallSw[i].value);
+			uninstalled = uninstalled + 1;
+
+		}
+	}
+
+	if(uninstalled == 0)
+	{
+		alert("No software selected to uninstall");
+	}
+	location.reload();
+}
+
+var mcModel = "PC_MAINTENANCE_CONTRACT";
+
+function activateMC(act)
+{
+	if (act)
+	{
+		if (inventoryHas(mcModel))
+			device.addCustomVar(mcModel, "true");
+		else
+			alert(mcModel + " is no longer available.");
+	}
+	else
+		device.removeCustomVar(mcModel);
+
+	location.reload();
+}
+
+function manageToggle()
+{
+	if (document.getElementById('manageDiv').style.display == 'block')
+		document.getElementById('manageDiv').style.display = 'none';
+	else
+		document.getElementById('manageDiv').style.display = 'block';
+}
+
+/*
+function makeCall(callStr)
+{
+	var retVal = ptMain.evaluateCall(callStr);
+	alert(retVal);
+}
+*/
+</script>
+
+</head>
+<body>
+<!--
+<a href='chat.htm'>chat</a>
+<br>
+<a href='server.htm'>server</a>
+<br>
+<a href='client.htm'>client</a>
+
+<br><br><br><br><br><br>
+
+<form name='ipcCall' onSubmit='makeCall(callStr.value); return false;'>
+<h3>Script call</h3>
+<input type='text' name='callStr' size=40>
+<input type='submit' value='Make call'>
+</form>
+<hr>
+-->
+<h3>Installed software</h3>
+<ul>
+<script>
+var hasSw = false;
+for (var i=0; i<device.getCustomVarsCount(); i++)
+{
+	var model = device.getCustomVarNameAt(i);
+	if (device.getCustomVarValueStrAt(i) == "software installed")
+	{
+		for (var j=0; j<inventory.length; j++)
+		{
+			var sw = inventory[j];
+			if (sw.name == model)
+			{
+				if (sw.page.length > 0)
+					document.writeln("<li><a href='" + sw.page + "'>" + model + "</a></li>");
+				else
+					document.writeln("<li>" + model + "</li>");
+				break;
+			}
+		}
+		hasSw = true;
+	}
+}
+
+if (!hasSw)
+	document.writeln("No software installed.");
+
+</script>
+</ul>
+<hr>
+
+<h3><a href="javascript:manageToggle()">Manage Software</a></h3>
+<div id="manageDiv" style="display: none">
+
+<form name='installForm'>
+<h4>Install software</h4>
+<script>
+var hasNewSw = false;
+document.writeln("<input type='hidden' name='installSw' value=''>");
+for (var i=0; i<inventory.length; i++)
+{
+	var model = inventory[i].name;
+	if ((model != mcModel) && (!device.hasCustomVar(model)))
+	{
+		document.writeln("<input type='checkbox' name='installSw' value='"
+			+ model + "'>" + model + "<br>");
+		hasNewSw = true;
+	}
+}
+
+if (hasNewSw)
+	document.writeln("<br><input type='button' value='Install' onClick='install(this.form)'>");
+else
+	document.writeln("No new software available to install.");
+
+</script>
+</form>
+<hr>
+
+<form name='uninstallForm'>
+<h4>Uninstall software</h4>
+<script>
+var hasSw = false;
+document.writeln("<input type='hidden' name='uninstallSw' value=''>");
+for (var i=0; i<device.getCustomVarsCount(); i++)
+{
+	var model = device.getCustomVarNameAt(i);
+	if (device.getCustomVarValueStrAt(i) == "software installed")
+	{
+		document.writeln("<input type='checkbox' name='uninstallSw' value='"
+			+ model + "'>" + model + "<br>");
+		hasSw = true;
+	}
+}
+
+if (hasSw)
+	document.writeln("<br><input type='button' value='Uninstall' onClick='uninstall(this.form)'>");
+else
+	document.writeln("No software installed.");
+
+</script>
+</form>
+</div>
+
+<hr>
+
+<form name='servicesForm'>
+<h3>Services</h3>
+<script>
+if (device.hasCustomVar(mcModel))
+{
+	document.writeln("This device has a maintenance contract activated.<br>");
+	document.writeln("<input type='button' value='Deactivate' onClick='activateMC(false)'>");
+}
+else
+{
+	document.writeln("This device does not have a maintenance contract activated.<br>");
+
+	if (inventoryHas(mcModel))
+		document.writeln("<input type='button' value='Activate' onClick='activateMC(true)'>");
+	else
+		document.writeln("The inventory does not have any maintenance contract purchased.");
+}
+</script>
+</form>
+</body>
+</html>
+
